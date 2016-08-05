@@ -2,7 +2,7 @@ var sync = require('synchronize');
 
 /**
  * Iterate over the objects in the cursor, using synchronize.js. Expects a fiber
- * context, contrary to convention.
+ * context.
  *
  * @param {{next: function(function(?Error, ?Object=))}} cursor An object with
  *   an asynchronous #next method.
