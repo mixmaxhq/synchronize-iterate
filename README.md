@@ -3,6 +3,8 @@ synchronize-iterate
 
 Native iteration over cursor-like objects with [synchronize.js](http://alexeypetrushin.github.io/synchronize/docs/index.html).
 
+[![Build Status](https://travis-ci.org/mixmaxhq/synchronize-iterate.svg?branch=master)](https://travis-ci.org/mixmaxhq/synchronize-iterate)
+
 Given a cursor-like object - one with an asynchronous #next method - produces an ES6 iterator.
 
 ```js
