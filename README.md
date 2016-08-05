@@ -28,6 +28,46 @@ Requires a version of Node that supports
 and the [iterator
 protocol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#iterator).
 
+What? Why?
+----------
+
+This pattern sometimes comes up if you want to iterate over a MongoDB cursor. You might be tempted
+to use the `forEach` from [mongojs](https://github.com/mafintosh/mongojs):
+
+```js
+sync.fiber(function() {
+  // help i want to iterate over this!
+  var cursor = db.collection('users').find();
+
+  cursor.forEach(function(err, user) {
+    // handle the users
+  });
+
+  // this prints before the first document even arrives
+  console.log('all done!');
+});
+```
+
+This clearly doesn't integrate well with synchronize, and you'd have to add a special `sync.defer`
+call for when `user` is finally `null`. You might then decide to try `next` directly:
+
+```js
+sync.fiber(function() {
+  // help i still want to iterate over this!
+  var cursor = db.collection('users').find();
+
+  for (var user; (user = sync.await(cursor.next(sync.defer()))); ) {
+    // handle the users
+  }
+
+  // this prints correctly now
+  console.log('all done!');
+});
+```
+
+This integrates better with synchronize, but now it's a bit ugly. Some people might even factor it
+into a `while` loop. Instead, use `synchronize-iterate`!
+
 Install
 -------
 
