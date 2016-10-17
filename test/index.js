@@ -47,6 +47,31 @@ describe('synchronize-iterate', function() {
     }, done);
   });
 
+  it('should be able to iterate in a bulk fashion', function(done) {
+    sync.fiber(function() {
+      var array = [1, 2, 3],
+        cursor = new Cursor([1, 2, 3]);
+      for (var items of syncIter(cursor, 3)) {
+        expect(items).to.have.length(3);
+        expect(items).to.have.members(array);
+      }
+
+      // Re-initialize the cursor.
+      cursor = new Cursor([1, 2, 3]);
+      var batches = [];
+      for (var batch of syncIter(cursor, 2)) {
+        batches.push(batch);
+      }
+
+      var fullBatch = batches[0];
+      expect(fullBatch).to.have.length(2);
+      expect(fullBatch).to.have.members([1, 2]);
+      var halfBatch = batches[1];
+      expect(halfBatch).to.have.length(1);
+      expect(halfBatch).to.have.members([3]);
+    }, done);
+  });
+
   it('should iterate over no items', function(done) {
     sync.fiber(function() {
       for (var item of syncIter(new Cursor([]))) {
