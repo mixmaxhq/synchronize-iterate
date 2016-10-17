@@ -91,6 +91,26 @@ for (var value of iter);
 for (var value of iter); // throws an error
 ```
 
+You can also pass an optional batch size which will cause the iterator to
+return results in bulk.
+
+```js
+// in a fiber
+let iter = syncIter(cursor, 5);
+for (var value of iter) {
+  // value is an array or 5 elements (or fewer if there were not five
+  // left to retrieve)
+}
+```
+
+Changelog
+---------
+* 0.2.0 Add optional batch size parameter support.
+* 0.1.2 Add what? why? section to the README.
+* 0.1.1 Minor update to the README.
+* 0.1.0 Initial Release.
+
+
 License
 -------
 
