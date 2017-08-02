@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 var sync = require('synchronize');
 var expect = require('chai').expect;
 
@@ -108,6 +109,8 @@ function getSpreadOperator() {
     if (Array.isArray(v) && v.length === 2 && v[0] === 1 && v[1] === 2) {
       return spread;
     }
-  } catch (err) {}
+  } catch (err) {
+    // Empty catch block
+  }
   return null;
 }
